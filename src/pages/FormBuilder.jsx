@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { CiText } from "react-icons/ci";
+import { IoDocumentTextOutline } from "react-icons/io5";
+import { IoIosCheckboxOutline } from "react-icons/io";
+import { CiCircleList } from "react-icons/ci";
 
 const FormBuilder = ({ form, setForm }) => {
   const updateFormTitle = (e) => {
@@ -99,27 +103,31 @@ const FormBuilder = ({ form, setForm }) => {
         <h2 className="text-lg font-semibold mb-4">Add Form Elements</h2>
         <div className="grid grid-cols-2 gap-3">
           <button
-            className="p-2 border rounded hover:bg-gray-100"
+            className="p-2 border rounded hover:bg-gray-100 flex items-center gap-2 flex-col"
             onClick={() => addField("text")}
           >
+            <CiText />
             Text
           </button>
           <button
-            className="p-2 border rounded hover:bg-gray-100"
+            className="p-2 border rounded hover:bg-gray-100 flex items-center gap-2 flex-col"
             onClick={() => addField("textarea")}
           >
+            <IoDocumentTextOutline />
             Paragraph
           </button>
           <button
-            className="p-2 border rounded hover:bg-gray-100"
+            className="p-2 border rounded hover:bg-gray-100 flex items-center gap-2 flex-col"
             onClick={() => addField("checkbox")}
           >
+            <IoIosCheckboxOutline />
             Checkbox
           </button>
           <button
-            className="p-2 border rounded hover:bg-gray-100"
+            className="p-2 border rounded hover:bg-gray-100 flex items-center gap-2 flex-col"
             onClick={() => addField("select")}
           >
+            <CiCircleList />
             Select
           </button>
         </div>
@@ -131,6 +139,7 @@ const FormBuilder = ({ form, setForm }) => {
         <input
           type="text"
           name="title"
+          aria-label="Form Title"
           value={form.title}
           onChange={updateFormTitle}
           placeholder="Form Title"
@@ -139,6 +148,7 @@ const FormBuilder = ({ form, setForm }) => {
         <input
           type="text"
           name="description"
+          aria-label="Form Description"
           value={form.description}
           onChange={updateFormDescription}
           placeholder="Form Description"
@@ -156,6 +166,7 @@ const FormBuilder = ({ form, setForm }) => {
               <input
                 type="text"
                 value={field.title}
+                aria-label="Form Field Title"
                 onChange={(e) => updateFieldTitle(field.id, e.target.value)}
                 className="block font-semibold mb-2 w-full bg-transparent outline-none"
               />
@@ -164,6 +175,7 @@ const FormBuilder = ({ form, setForm }) => {
                 <input
                   type="text"
                   placeholder={`Enter ${field.title}`}
+                  aria-label="Text Field Preview"
                   className="w-full border px-3 py-2 rounded"
                   required={field.required}
                   readOnly
@@ -175,6 +187,7 @@ const FormBuilder = ({ form, setForm }) => {
                   placeholder={`Enter ${field.title}`}
                   rows={3}
                   className="w-full border px-3 py-2 rounded"
+                  aria-label="Textarea Field Preview"
                   required={field.required}
                   readOnly
                 />
@@ -182,7 +195,10 @@ const FormBuilder = ({ form, setForm }) => {
 
               {field.type === "select" && (
                 <>
-                  <select className="w-full border px-3 py-2 rounded text-gray-500 bg-white">
+                  <select
+                    aria-label="Select Field Preview"
+                    className="w-full border px-3 py-2 rounded text-gray-500 bg-white"
+                  >
                     <option selected disabled>
                       Select an option
                     </option>
@@ -195,6 +211,7 @@ const FormBuilder = ({ form, setForm }) => {
                   {field.options.map((option, index) => (
                     <div key={index} className="flex items-center gap-2 mb-2">
                       <input
+                        aria-label="Select Field Option"
                         type="text"
                         value={option}
                         onChange={(e) =>
@@ -224,13 +241,14 @@ const FormBuilder = ({ form, setForm }) => {
                 <>
                   {field.options.map((option, index) => (
                     <div key={index} className="flex items-center gap-2 mb-2">
-                      <input type="checkbox" disabled />
+                      <input type="checkbox" disabled aria-label="Checkbox" />
                       <input
                         type="text"
                         value={option}
                         onChange={(e) =>
                           updateOption(field.id, index, e.target.value)
                         }
+                        aria-label="Checkbox Option"
                         className="w-full border px-2 py-1 rounded"
                       />
                       <button
@@ -252,8 +270,12 @@ const FormBuilder = ({ form, setForm }) => {
               )}
 
               <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
-                <label className="flex items-center gap-2">
+                <label
+                  htmlFor={`${field.id}-required`}
+                  className="flex items-center gap-2"
+                >
                   <input
+                    id={`${field.id}-required`}
                     type="checkbox"
                     checked={field.required}
                     className="accent-purple-600"

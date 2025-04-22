@@ -1,7 +1,12 @@
 import { FaRegSave } from "react-icons/fa"; // Save icon
 import { HiOutlineDocumentText } from "react-icons/hi"; // Form icon
 
-const Navbar = ({ currentPage, setCurrentPage, handleSave }) => {
+const Navbar = ({
+  currentPage,
+  setCurrentPage,
+  handleSave,
+  setSubmittedData,
+}) => {
   return (
     <nav className="flex items-center justify-between px-6 py-4 border-b">
       {/* Left: App Icon and Title */}
