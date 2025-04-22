@@ -15,7 +15,6 @@ const Navbar = ({ currentPage, setCurrentPage, handleSave }) => {
 
       {/* Right: Save and Preview Buttons */}
       <div className="flex items-center gap-3">
-        {/* TODO: implement save for persistence through refreshes */}
         <button
           className="flex items-center gap-2 border rounded px-4 py-2 text-sm font-medium shadow-sm hover:bg-gray-100"
           onClick={handleSave}
@@ -28,7 +27,10 @@ const Navbar = ({ currentPage, setCurrentPage, handleSave }) => {
           onClick={
             currentPage === "FormBuilder"
               ? () => setCurrentPage("FormPreview")
-              : () => setCurrentPage("FormBuilder")
+              : () => {
+                  setCurrentPage("FormBuilder");
+                  setSubmittedData(false);
+                }
           }
         >
           {/* check if current page state is formbuilder, and conditionally render */}

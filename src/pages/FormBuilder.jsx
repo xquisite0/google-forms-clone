@@ -144,7 +144,12 @@ const FormBuilder = ({ form, setForm }) => {
           placeholder="Form Description"
           className="text-sm text-gray-500 mb-6 w-full outline-none bg-transparent"
         />
-
+        {form.elements.length === 0 && (
+          <p>
+            No form fields added yet. Use the panel on the left to add form
+            elements.
+          </p>
+        )}
         <form>
           {form.elements.map((field) => (
             <div key={field.id} className="mb-6 border p-4 rounded bg-gray-50">

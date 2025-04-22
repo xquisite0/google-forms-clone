@@ -32,6 +32,7 @@ function App() {
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         handleSave={handleSave}
+        setSubmittedData={setSubmittedData}
       />
       {currentPage === "FormBuilder" && (
         <FormBuilder form={form} setForm={setForm} />
