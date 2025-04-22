@@ -46,12 +46,49 @@ const FormBuilder = ({ form, setForm }) => {
     };
 
     if (type === "checkbox" || type === "select") {
-      newField.options = [];
+      newField.options = ["Option 1", "Option 2"];
     }
 
     setForm((prev) => ({
       ...prev,
       elements: [...prev.elements, newField],
+    }));
+  };
+
+  const updateOption = (id, index, newOption) => {
+    setForm((prev) => ({
+      ...prev,
+      elements: prev.elements.map((f) => {
+        if (f.id === id) {
+          f.options[index] = newOption;
+        }
+        return f;
+      }),
+    }));
+  };
+
+  const addOption = (id) => {
+    setForm((prev) => ({
+      ...prev,
+      elements: prev.elements.map((f) =>
+        f.id === id
+          ? { ...f, options: [...f.options, `Option ${f.options.length + 1}`] }
+          : f
+      ),
+    }));
+  };
+
+  const removeOption = (id, index) => {
+    setForm((prev) => ({
+      ...prev,
+      elements: prev.elements.map((f) =>
+        f.id === id
+          ? {
+              ...f,
+              options: f.options.filter((_, idx) => idx !== index),
+            }
+          : f
+      ),
     }));
   };
 
@@ -138,6 +175,77 @@ const FormBuilder = ({ form, setForm }) => {
                 />
               )}
 
+              {field.type === "select" && (
+                <>
+                  <select className="w-full border px-3 py-2 rounded text-gray-500 bg-white">
+                    <option selected disabled>
+                      Select an option
+                    </option>
+                    {field.options.map((opt, idx) => (
+                      <option key={idx}>{opt}</option>
+                    ))}
+                  </select>
+
+                  <p className="mt-3 mb-1 text-sm font-medium">Options:</p>
+                  {field.options.map((option, index) => (
+                    <div key={index} className="flex items-center gap-2 mb-2">
+                      <input
+                        type="text"
+                        value={option}
+                        onChange={(e) =>
+                          updateOption(field.id, index, e.target.value)
+                        }
+                        className="w-full border px-2 py-1 rounded"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeOption(field.id, index)}
+                      >
+                        🗑
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => addOption(field.id)}
+                    className="text-sm px-3 py-1 border rounded hover:bg-gray-100"
+                  >
+                    Add option
+                  </button>
+                </>
+              )}
+
+              {field.type === "checkbox" && (
+                <>
+                  {field.options.map((option, index) => (
+                    <div key={index} className="flex items-center gap-2 mb-2">
+                      <input type="checkbox" disabled />
+                      <input
+                        type="text"
+                        value={option}
+                        onChange={(e) =>
+                          updateOption(field.id, index, e.target.value)
+                        }
+                        className="w-full border px-2 py-1 rounded"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeOption(field.id, index)}
+                      >
+                        🗑
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => addOption(field.id)}
+                    className="text-sm px-3 py-1 border rounded hover:bg-gray-100"
+                  >
+                    Add option
+                  </button>
+                </>
+              )}
+
               <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
                 <label className="flex items-center gap-2">
                   <input
@@ -145,6 +253,7 @@ const FormBuilder = ({ form, setForm }) => {
                     checked={field.required}
                     className="accent-purple-600"
                     onClick={() => toggleRequired(field.id)}
+                    readOnly
                   />
                   Required
                 </label>
