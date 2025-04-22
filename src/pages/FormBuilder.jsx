@@ -2,11 +2,20 @@ import React, { useState } from "react";
 
 const FormBuilder = ({ form, setForm }) => {
   const updateFormTitle = (e) => {
-    setForm({ ...form, title: e.target.value });
+    setForm((prev) => ({ ...prev, title: e.target.value }));
   };
 
   const updateFormDescription = (e) => {
-    setForm({ ...form, description: e.target.value });
+    setForm((prev) => ({ ...prev, description: e.target.value }));
+  };
+
+  const updateFieldTitle = (id, newTitle) => {
+    setForm((prev) => ({
+      ...prev,
+      elements: prev.elements.map((f) =>
+        f.id === id ? { ...f, title: newTitle } : f
+      ),
+    }));
   };
 
   return (
@@ -51,12 +60,17 @@ const FormBuilder = ({ form, setForm }) => {
         <form>
           {form.elements.map((field) => (
             <div key={field.id} className="mb-6 border p-4 rounded bg-gray-50">
-              <label className="block font-semibold mb-2">{field.title}</label>
+              <input
+                type="text"
+                value={field.title}
+                onChange={(e) => updateFieldTitle(field.id, e.target.value)}
+                className="block font-semibold mb-2 w-full bg-transparent outline-none"
+              />
 
               {field.type === "text" && (
                 <input
                   type="text"
-                  placeholder={field.placeholder}
+                  placeholder={`Enter ${field.title}`}
                   className="w-full border px-3 py-2 rounded"
                   required={field.required}
                 />
@@ -64,7 +78,7 @@ const FormBuilder = ({ form, setForm }) => {
 
               {field.type === "textarea" && (
                 <textarea
-                  placeholder={field.placeholder}
+                  placeholder={`Enter ${field.title}`}
                   rows={3}
                   className="w-full border px-3 py-2 rounded"
                   required={field.required}

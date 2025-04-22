@@ -8,7 +8,20 @@ function App() {
   const [form, setForm] = useState({
     title: "About you",
     description: "Tell us about yourself",
-    elements: [],
+    elements: [
+      {
+        id: `text-${Date.now()}`,
+        type: "text",
+        title: "Your name",
+        required: true,
+      },
+      {
+        id: `textarea-${Date.now() + 1}`,
+        type: "textarea",
+        title: "Describe yourself",
+        required: false,
+      },
+    ],
   });
 
   return (
