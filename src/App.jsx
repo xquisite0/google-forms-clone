@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import FormBuilder from "./pages/FormBuilder";
 import FormPreview from "./pages/FormPreview";
+import SuccessPage from "./pages/SuccessPage";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("FormBuilder");
+  const [submittedData, setSubmittedData] = useState(null);
+
   const [form, setForm] = useState({
     title: "Form Title",
     description: "Form Description",
@@ -33,7 +36,15 @@ function App() {
       {currentPage === "FormBuilder" && (
         <FormBuilder form={form} setForm={setForm} />
       )}
-      {currentPage === "FormPreview" && <FormPreview />}
+      {currentPage === "FormPreview" && !submittedData && (
+        <FormPreview form={form} setSubmittedData={setSubmittedData} />
+      )}
+      {currentPage === "FormPreview" && submittedData && (
+        <SuccessPage
+          data={submittedData}
+          onBack={() => setSubmittedData(false)}
+        />
+      )}
     </div>
   );
 }
