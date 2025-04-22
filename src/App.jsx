@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Navbar from "./components/Navbar";
+import FormBuilder from "./pages/FormBuilder";
+import FormPreview from "./pages/FormPreview";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("FormBuilder");
@@ -7,7 +9,8 @@ function App() {
   return (
     <div>
       <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      <h1 class="text-3xl font-bold underline">Hello World</h1>
+      {currentPage === "FormBuilder" && <FormBuilder />}
+      {currentPage === "FormPreview" && <FormPreview />}
     </div>
   );
 }
