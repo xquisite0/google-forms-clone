@@ -1,7 +1,7 @@
 import { FaRegSave } from "react-icons/fa"; // Save icon
 import { HiOutlineDocumentText } from "react-icons/hi"; // Form icon
 
-const Navbar = ({ currentPage, setCurrentPage }) => {
+const Navbar = ({ currentPage, setCurrentPage, handleSave }) => {
   return (
     <nav className="flex items-center justify-between px-6 py-4 border-b">
       {/* Left: App Icon and Title */}
@@ -16,7 +16,10 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
       {/* Right: Save and Preview Buttons */}
       <div className="flex items-center gap-3">
         {/* TODO: implement save for persistence through refreshes */}
-        <button className="flex items-center gap-2 border rounded px-4 py-2 text-sm font-medium shadow-sm hover:bg-gray-100">
+        <button
+          className="flex items-center gap-2 border rounded px-4 py-2 text-sm font-medium shadow-sm hover:bg-gray-100"
+          onClick={handleSave}
+        >
           <FaRegSave />
           Save
         </button>
