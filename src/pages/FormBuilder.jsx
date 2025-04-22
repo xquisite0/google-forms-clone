@@ -18,20 +18,64 @@ const FormBuilder = ({ form, setForm }) => {
     }));
   };
 
+  const toggleRequired = (id) => {
+    setForm((prev) => ({
+      ...prev,
+      elements: prev.elements.map((f) =>
+        f.id === id ? { ...f, required: !f.required } : f
+      ),
+    }));
+  };
+
+  const addField = (type) => {
+    const timestamp = Date.now();
+    const id = `${type}-${timestamp}`;
+
+    let newField = {
+      id,
+      type,
+      title: `New ${type} field`,
+      required: false,
+    };
+
+    if (type === "checkbox" || type === "select") {
+      newField.options = [];
+    }
+
+    setForm((prev) => ({
+      ...prev,
+      elements: [...prev.elements, newField],
+    }));
+  };
+
   return (
     <div className="flex p-6 gap-6 bg-gray-100 min-h-screen">
       {/* Sidebar */}
       <div className="w-1/4 bg-white rounded shadow p-4">
         <h2 className="text-lg font-semibold mb-4">Add Form Elements</h2>
         <div className="grid grid-cols-2 gap-3">
-          <button className="p-2 border rounded hover:bg-gray-100">Text</button>
-          <button className="p-2 border rounded hover:bg-gray-100">
+          <button
+            className="p-2 border rounded hover:bg-gray-100"
+            onClick={() => addField("text")}
+          >
+            Text
+          </button>
+          <button
+            className="p-2 border rounded hover:bg-gray-100"
+            onClick={() => addField("textarea")}
+          >
             Paragraph
           </button>
-          <button className="p-2 border rounded hover:bg-gray-100">
+          <button
+            className="p-2 border rounded hover:bg-gray-100"
+            onClick={() => addField("checkbox")}
+          >
             Checkbox
           </button>
-          <button className="p-2 border rounded hover:bg-gray-100">
+          <button
+            className="p-2 border rounded hover:bg-gray-100"
+            onClick={() => addField("select")}
+          >
             Select
           </button>
         </div>
@@ -73,6 +117,7 @@ const FormBuilder = ({ form, setForm }) => {
                   placeholder={`Enter ${field.title}`}
                   className="w-full border px-3 py-2 rounded"
                   required={field.required}
+                  readOnly
                 />
               )}
 
@@ -82,6 +127,7 @@ const FormBuilder = ({ form, setForm }) => {
                   rows={3}
                   className="w-full border px-3 py-2 rounded"
                   required={field.required}
+                  readOnly
                 />
               )}
 
@@ -91,6 +137,7 @@ const FormBuilder = ({ form, setForm }) => {
                     type="checkbox"
                     checked={field.required}
                     className="accent-purple-600"
+                    onClick={() => toggleRequired(field.id)}
                   />
                   Required
                 </label>
