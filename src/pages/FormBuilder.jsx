@@ -27,6 +27,13 @@ const FormBuilder = ({ form, setForm }) => {
     }));
   };
 
+  const deleteField = (id) => {
+    setForm((prev) => ({
+      ...prev,
+      elements: prev.elements.filter((f) => f.id !== id),
+    }));
+  };
+
   const addField = (type) => {
     const timestamp = Date.now();
     const id = `${type}-${timestamp}`;
@@ -144,6 +151,7 @@ const FormBuilder = ({ form, setForm }) => {
                 <button
                   type="button"
                   className="text-gray-400 hover:text-red-500"
+                  onClick={() => deleteField(field.id)}
                 >
                   🗑
                 </button>
